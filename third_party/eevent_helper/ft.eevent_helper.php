@@ -142,8 +142,14 @@ class Eevent_helper_ft extends EE_Fieldtype {
 
 	function replace_tag($data, $params = array(), $tagdata = FALSE)
 	{
+		if ($data == '0' && isset($params['show_empty']) && $params['show_empty']=='no') return '';
+
+		// prepend and append to wrap tag in html and avoid conditionals
+		$prepend = (isset($params['prepend']) ? $params['prepend'] : '');
+		$append  = (isset($params['append'])  ? $params['append'] : '');
+
 		$format = (isset($params['format'])) ? $params['format'] : '%U';
-		return $this->EE->localize->decode_date($format, $data);
+		return $prepend . $this->EE->localize->decode_date($format, $data) . $append;
 	}
 
 
